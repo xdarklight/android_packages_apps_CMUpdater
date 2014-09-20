@@ -218,7 +218,13 @@ public class DownloadService extends IntentService
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        VolleyLog.e("Error: ", error.getMessage());
+        String statusCode = "(unknown)";
+        if (error.networkResponse != null) {
+            statusCode = String.valueOf(error.networkResponse.statusCode);
+        }
+
+        VolleyLog.e("Failed to get incremental update details: %s %s",
+                error.networkResponse.statusCode, error.getMessage());
     }
 
     @Override
